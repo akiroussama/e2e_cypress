@@ -7,7 +7,7 @@ describe("SkillsAdmin", () => {
     cy.get('[data-testid="newWilderName"]')
       .should("be.visible")
       .type("James Bond");
-    cy.get('[data-testid="addNewWilder"]').should("be.visible").click();
+      cy.get("button").should("be.visible").click();
     // Add assertions to check if the new skill was added correctly
   });
 
