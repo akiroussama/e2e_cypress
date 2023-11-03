@@ -29,22 +29,24 @@ export default function SkillsAdmin() {
             <Loader />
           </div>
         ) : (
-          skills.map((s) => (
+          skills.map(s => (
             <li key={s.id} className="flex justify-between mb-2">
               <input
                 className="w-full mr-2"
                 type="text"
                 id="name"
+                // test id is used in the test file
+                data-testid="skill-name"
                 value={s.name}
-                onChange={async (e) => {
+                onChange={async e => {
                   const name = e.target.value;
                   if (name) {
                     client.cache.updateQuery(
                       { query: SkillsDocument },
-                      (query) => {
+                      query => {
                         return {
                           ...query,
-                          skills: (query as SkillsQuery).skills.map((sk) =>
+                          skills: (query as SkillsQuery).skills.map(sk =>
                             s.id === sk.id ? { ...sk, name } : sk
                           ),
                         };
@@ -61,6 +63,8 @@ export default function SkillsAdmin() {
               />
 
               <button
+                //test id is used in the test file
+                data-testid="delete-skill"
                 onClick={async () => {
                   if (window.confirm("sure ?")) {
                     await deleteSkill({ variables: { deleteSkillId: s.id } });
@@ -68,7 +72,7 @@ export default function SkillsAdmin() {
                       fields: {
                         skills(existing, { readField }) {
                           return (existing as SkillsQuery["skills"]).filter(
-                            (sk) => readField("id", sk) !== s.id
+                            sk => readField("id", sk) !== s.id
                           );
                         },
                       },
