@@ -34,28 +34,25 @@ services:
     extra_hosts:
     - "host.docker.internal:host-gateway"
 
-  client:
-    build: './client'
-    ports:
-      - 3000:3000
-    volumes:
-      - ./client/src:/app/src
-    environment:
-      REACT_APP_GRAPHQL_API_URL: 'http://host.docker.internal:4000'
-    healthcheck:
-      test: "curl --fail --request GET --url http://host.docker.internal:3000"
-      interval: 5s
-      timeout: 5s
-      retries: 30
-    extra_hosts:
-    - "host.docker.internal:host-gateway"
+ 
+   
+  
 
   e2e:
     image: cypress
-    build: ./e2e
+    # the e2e container needs to access the client container
+    # so it can run Cypress tests against it
+    # select ./client/Dockerfile-e2e as the Dockerfile for this container
+    build:
+      context: ./client
+      dockerfile: Dockerfile-e2e
+    ports:
+      - 3000:3000
     container_name: cypress
     depends_on:
-      - client
+      backend:
+        condition: service_healthy
+    
     # note: inside e2e container, the network allows accessing
     # "web" host under name "web"
     # so "curl http://web" would return whatever the webserver
@@ -63,6 +60,7 @@ services:
     # see https://docs.docker.com/compose/networking/
     environment:
       - CYPRESS_baseUrl=http://host.docker.internal:3000
+      - REACT_APP_GRAPHQL_API_URL=http://host.docker.internal:4000
     command: npx cypress run
     # mount the host directory e2e/cypress and the file e2e/cypress.config.js as
     # volumes within the container
@@ -75,3 +73,6 @@ services:
     volumes:
       - ./e2e/cypress:/app/cypress
       - ./e2e/cypress.config.js:/app/cypress.config.js
+      - ./client/src:/app/src
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
