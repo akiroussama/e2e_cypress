@@ -8,13 +8,15 @@ describe("SkillsAdmin", () => {
   });
 
   it("adds a new skill", () => {
-    cy.get('[data-testid="new-skills-name"]').type("New Skill");
-    cy.get('[data-testid="new-skills-button"]').click();
+    cy.get('[data-cy="new-skills-name"]')
+      .should("be.visible")
+      .type("New Skill");
+    cy.get('[data-cy="new-skills-button"]').should("be.visible").click();
     // Add assertions to check if the new skill was added correctly
   });
 
   it("deletes a skill", () => {
-    cy.get('[data-testid="delete-skill"]').click();
+    cy.get('[data-cy="delete-skill"]').should("be.visible").click();
     // Add assertions to check if the skill was deleted correctly
   });
 });
