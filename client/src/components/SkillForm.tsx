@@ -27,7 +27,7 @@ export default function SkillForm() {
       <label htmlFor="name" className="mr-2">
         <span className="mr-3">Name</span>
         <input
-          data-cy="newSkillsName"
+          data-testid="newWilderName"
           ref={nameRef}
           type="text"
           id="name"
@@ -37,7 +37,7 @@ export default function SkillForm() {
         />
       </label>
       <button
-        data-cy="add-skill-button"
+        data-cy="newSkillsButton"
         id="add-skill"
         type="submit"
         disabled={processing}

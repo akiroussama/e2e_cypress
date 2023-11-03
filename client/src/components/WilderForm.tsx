@@ -37,11 +37,11 @@ export default function WilderForm() {
           maxLength={30}
           id="name"
           disabled={processing}
-          onChange={(e) => setName(e.target.value)}
+          onChange={e => setName(e.target.value)}
           value={name}
         />
       </label>
-      <button type="submit" disabled={processing}>
+      <button data-testid="addNewWilder" type="submit" disabled={processing}>
         +
       </button>
       <br />
