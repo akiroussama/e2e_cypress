@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { useMemo, useState } from "react";
-import createPersistedState from "use-persisted-state";
+import useLocalStorageState from "use-local-storage-state";
 import { useUpdateGradeMutation } from "../gql/generated/schema";
 
 interface SkillProps {
@@ -11,23 +11,22 @@ interface SkillProps {
 }
 
 const Skill = ({ title, votes, wilderId, skillId }: SkillProps) => {
-  const useVotedOnce = useMemo(
-    () => createPersistedState(`${wilderId}-${skillId}`),
-    [wilderId, skillId]
-  );
-
   const [updateGrade] = useUpdateGradeMutation();
 
   const [currentVotes, setCurrentVotes] = useState(votes);
-  const [votedOnce, setVotedOnce] = useVotedOnce(false);
+  const [votedOnce, setVotedOnce] = useLocalStorageState(
+    `${wilderId}-${skillId}`,
+    {
+      defaultValue: [wilderId, skillId],
+    }
+  );
   const [isHovered, setIsHovered] = useState(false);
 
   const onClick = () => {
     updateGrade({
       variables: { wilderId, skillId, votes: currentVotes + 1 },
     }).then(() => {
-      setVotedOnce(true);
-      setCurrentVotes((c) => c + 1);
+      setCurrentVotes(c => c + 1);
     });
   };
 

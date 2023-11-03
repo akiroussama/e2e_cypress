@@ -68,7 +68,14 @@ const Wilder = ({
           </div>
           <div className="flex flex-col min-w-[40px]">
             <Link to={`/wilders/${id}/edit`}>
-              <button className="mb-2 w-full">✏️</button>
+              <button
+                id="editWilder"
+                name="wilderedit"
+                data-testid="wilderedit"
+                className="mb-2 w-full"
+              >
+                ✏️
+              </button>
             </Link>
             {canDeleteWilder && <button onClick={handleDelete}>x</button>}
           </div>
