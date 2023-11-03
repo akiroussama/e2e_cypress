@@ -45,7 +45,7 @@ services:
     # select ./client/Dockerfile-e2e as the Dockerfile for this container
     build:
       context: ./client
-      dockerfile: Dockerfile-e2e
+      dockerfile: Dockerfile.e2e
     ports:
       - 3000:3000
     container_name: cypress
@@ -71,8 +71,6 @@ services:
     #     machine immediately takes effect within the e2e container (no docker
     #     rebuild required).
     volumes:
-      - ./e2e/cypress:/app/cypress
-      - ./e2e/cypress.config.js:/app/cypress.config.js
       - ./client/src:/app/src
     extra_hosts:
       - "host.docker.internal:host-gateway"
