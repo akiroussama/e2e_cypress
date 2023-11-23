@@ -1,10 +1,10 @@
-import clsx from "clsx";
-import React from "react";
-import Loader from "../components/Loader";
-import Wilder from "../components/Wilder";
-import WilderForm from "../components/WilderForm";
-import { useAutoAnimate } from "@formkit/auto-animate/react";
-import { useWildersQuery } from "../gql/generated/schema";
+import clsx from 'clsx';
+import React from 'react';
+import Loader from '../components/Loader';
+import Wilder from '../components/Wilder';
+import WilderForm from '../components/WilderForm';
+import { useAutoAnimate } from '@formkit/auto-animate/react';
+import { useWildersQuery } from '../gql/generated/schema';
 
 export default function Home() {
   const [parent] = useAutoAnimate<any>();
@@ -16,10 +16,10 @@ export default function Home() {
     <div>
       <WilderForm />
       <div
-        data-testid="wilder-list"
+        data-testid='wilderList'
         ref={parent}
         className={clsx(
-          loadingWilders && "opacity-90 transition-opacity duration-500"
+          loadingWilders && 'opacity-90 transition-opacity duration-500'
         )}
       >
         {loadingWilders && !wilders.length ? (
